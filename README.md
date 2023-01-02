@@ -1,4 +1,6 @@
-# react-craco-starter
-Monorepo for react project
+# Avatar Creator
 
+Fun UI Avatar Creator
+
+Built using:
 Lerna, CRA, CRACO, Storybook, Dart Sass, Jest

@@ -1,5 +1,5 @@
 {
-  "name": "@starter/root",
+  "name": "@avatar/root",
   "private": true,
   "devDependencies": {
     "@craco/craco": "^7.0.0",
@@ -7,7 +7,7 @@
     "lerna": "^4.0.0"
   },
   "scripts": {
-    "start": "lerna exec --scope @starter/app -- yarn start"
+    "start": "lerna exec --scope @avatar/app -- yarn start"
   },
   "workspaces": {
     "packages": [

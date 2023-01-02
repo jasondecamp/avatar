@@ -2,7 +2,7 @@ const path = require("path");
 const { getLoader, loaderByName } = require("@craco/craco");
 
 const packages = [
-  path.join(__dirname, "../ui"),
+  path.join(__dirname, "../library"),
 ];
 
 module.exports = {

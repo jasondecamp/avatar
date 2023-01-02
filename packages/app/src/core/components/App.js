@@ -1,16 +1,14 @@
-import { Icon } from '@starter/ui';
+import React from 'react';
+import { Providers, RouteTree, generate } from '@avatar/library';
+import { reducer } from '../reducer';
+import { routeTree } from '../routes';
 
-import CSS from './styles/App.module.css';
+const store = generate.reduxStore(reducer);
 
 export const App = () => {
   return (
-    <div className={CSS.app}>
-      <header className={CSS.app_header}>
-        <Icon size='large'/>
-        <p>
-          Edit <code>src/core/components/App.js</code> and save to reload.
-        </p>
-      </header>
-    </div>
+    <Providers store={store}>
+      <RouteTree routeTree={routeTree} defaultRoles={['guest']} />
+    </Providers>
   );
-}
+};

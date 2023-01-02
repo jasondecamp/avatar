@@ -1,0 +1,112 @@
+// @import '~@moved/ui/src/styles/common/all';
+// @import '~@moved/ui/src/styles/ui/ui.keyframes';
+
+/* ----------------------------------------
+    Modal Styles
+---------------------------------------- */
+
+
+.window {
+  //Set Baseline Font/FontSize
+  // @extend %main-body-text;
+
+  z-index: 1300; // this value should be less than the notistack (snackbar) z-index, which is 1400
+  background-color: rgba(100,100,100,0.3);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  transition: opacity 0.3s;
+  padding: 50px 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  white-space: nowrap;
+  &::before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+  // @include breakpoint(xs) {
+  //   padding: 0;
+  //   -webkit-overflow-scrolling: touch;
+  // }
+}
+
+.modal {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+  white-space: normal;
+  transform: scale3d(.3, .3, .3);
+  opacity: 0;
+  min-width: 300px;
+  max-width: 700px;
+  background-color: white;
+  box-shadow: 0 10px 70px 0 rgba(139, 148, 159, 0.2);
+  border-radius: 20px;
+  padding: 32px;
+  position: relative;
+  transition: opacity 0.15s linear;
+  .in & {
+    opacity: 1;
+    transform: none;
+    // animation: zoomIn 0.4s linear 0s 1;
+  }
+  .out & {
+    // animation: zoomOut 0.2s linear 0s 1
+  }
+  // @include breakpoint(xs) {
+  //   width: 100%;
+  //   min-height: 100%;
+  //   border-radius: 0;
+  // }
+
+}
+
+.close {
+  z-index: 100;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  height: 35px;
+  width: 35px;
+  line-height: 32px;
+  font-size: 30px;
+  text-align: center;
+  cursor: pointer;
+  // color: $black-40;
+  // background-image: radial-gradient(circle at center , $black-20 50%, transparent 50%);
+  background-repeat: no-repeat;
+  background-size: 0 0;
+  background-position: 50% 50%;
+  transition: background-size .3s, color .3s;
+  border-radius: 100px;
+  user-select: none;
+  &:hover {
+    background-size: 200% 200%;
+    // color: $black-90;
+  }
+  &:focus, &:active {
+    // background-color: $black-20;
+    background-image: none;
+  }
+}
+
+.title {
+  margin-bottom: 24px;
+  // color: $black-90;
+  font-size: 40px;
+  font-weight: 300;
+  line-height: 40px;
+  text-align: center;
+}
+
+.content {
+  // color: $black-40;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 20px;
+}
