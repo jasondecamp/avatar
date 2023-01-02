@@ -1,0 +1,27 @@
+.icon {
+  pointer-events: none;
+  &.small {
+    height: 20vmin;
+  }
+  &.medium {
+    height: 40vmin;
+  }
+  &.large {
+    height: 60vmin;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .icon {
+    animation: spin infinite 20s linear;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
