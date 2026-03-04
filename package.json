@@ -2,12 +2,11 @@
   "name": "@avatar/root",
   "private": true,
   "devDependencies": {
-    "@craco/craco": "^7.0.0",
-    "craco": "^0.0.3",
     "lerna": "^4.0.0"
   },
   "scripts": {
-    "start": "lerna exec --scope @avatar/app -- yarn start"
+    "dev": "lerna exec --scope @avatar/app -- yarn dev",
+    "start": "lerna exec --scope @avatar/app -- yarn dev"
   },
   "workspaces": {
     "packages": [

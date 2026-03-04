@@ -1,0 +1,158 @@
+@use './variables' as *;
+
+// ── Page shell ──────────────────────────────────────────────────────────────
+.builder {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: #e0e0e0;
+  padding: 40px 0;
+  box-sizing: border-box;
+  gap: 24px;
+
+  // Flex spacers: vertically center the content when it fits in the viewport;
+  // collapse to 0 and let the page scroll when content is taller.
+  &::before,
+  &::after {
+    content: '';
+    flex: 1;
+  }
+}
+
+// ── Layer title carousel (vertical) ─────────────────────────────────────────
+// Clips to show partial prev/next labels above and below the active label.
+.title_carousel {
+  position: relative;
+  width: $stage-size;
+  height: 80px;
+  user-select: none;
+}
+
+.title_item {
+  position: absolute;
+  width: 100%;
+  top: 50%;
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  letter-spacing: 0.08em;
+  text-transform: lowercase;
+  color: $dark;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center center;
+}
+
+.title_item.center {
+  transform: translateY(-50%) scale(1);
+  opacity: 1;
+}
+
+.title_item.previous {
+  transform: translateY(calc(-50% - 34px)) scale(0.6);
+  opacity: 0.35;
+  filter: blur(2px);
+}
+
+.title_item.next {
+  transform: translateY(calc(-50% + 34px)) scale(0.6);
+  opacity: 0.35;
+  filter: blur(2px);
+}
+
+.title_item.hidden {
+  transform: translateY(-50%) scale(0.5);
+  opacity: 0;
+  filter: blur(3px);
+}
+
+// ── Interaction area ─────────────────────────────────────────────────────────
+// CarouselRows are absolute strips within this container; stage_card is
+// normal-flow so the snapshot footer lives below the stage naturally.
+.interaction_area {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+// Stage card: white background + snapshot footer, shared card styling.
+// No z-index so it doesn't create a stacking context — CarouselRows at their
+// respective layer z-indexes compose correctly over the Stage background.
+.stage_card {
+  position: relative;
+}
+
+// ── Snapshot footer (inside stage_card) ─────────────────────────────────────
+.snapshot_btn {
+  padding: 10px 0;
+  background: #f0f0f0;
+  border: none;
+  border-top: 1px solid #ddd;
+  font-size: 13px;
+  color: #888;
+  cursor: pointer;
+  text-align: center;
+  letter-spacing: 0.03em;
+  transition: background 0.15s, color 0.15s;
+  margin: 0 10px;
+
+  &:hover {
+    background: #e8e8e8;
+    color: #444;
+  }
+}
+
+// ── Create me CTA ────────────────────────────────────────────────────────────
+.create_btn {
+  width: $stage-size;
+  padding: 13px 0;
+  background: $accent;
+  border: none;
+  border-radius: $card-radius;
+  font-size: 26px;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  color: #1a1a1a;
+  cursor: pointer;
+  text-transform: lowercase;
+  box-sizing: border-box;
+
+  &:hover { background: darken($accent, 6%); }
+}
+
+// ── Recent snapshots ─────────────────────────────────────────────────────────
+.snapshots_section {
+  margin-top: 12px;
+  width: $stage-size;
+  background: $dark;
+  border-radius: $card-radius;
+  overflow: hidden;
+  margin-bottom: 40px;
+}
+
+.snapshots_grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.snapshot_thumb {
+  aspect-ratio: 1;
+  background: #3e3e3e;
+  border-radius: 3px;
+  border: 1px solid #4a4a4a;
+}
+
+.snapshots_label {
+  text-align: center;
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: 0.07em;
+  text-transform: lowercase;
+  color: #888;
+  padding: 6px 0 10px;
+}
