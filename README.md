@@ -3,4 +3,4 @@
 Fun UI Avatar Creator
 
 Built using:
-Lerna, CRA, CRACO, Storybook, Dart Sass, Jest
+Lerna, Vite, Storybook, Dart Sass, and a little help from my friend Claude
