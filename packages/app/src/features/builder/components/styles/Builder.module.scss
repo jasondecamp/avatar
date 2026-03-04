@@ -11,6 +11,7 @@
   padding: 40px 0;
   box-sizing: border-box;
   gap: 24px;
+  overflow-x: hidden;
 
   // Flex spacers: vertically center the content when it fits in the viewport;
   // collapse to 0 and let the page scroll when content is taller.
