@@ -25,6 +25,7 @@
     "build": "vite build",
     "build:development": "dotenv -e .env.dev yarn build",
     "build:production": "dotenv -e .env.prod yarn build",
+    "deploy": "rsync -avze ssh --mkpath --del --force ./dist root@mimsy.me:/var/www/mimsy.me",
     "preview": "vite preview"
   }
 }
