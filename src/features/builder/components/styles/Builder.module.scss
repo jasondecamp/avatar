@@ -1,3 +1,4 @@
+@use 'sass:color';
 @use './variables' as *;
 
 // ── Page shell ──────────────────────────────────────────────────────────────
@@ -121,7 +122,7 @@
   text-transform: lowercase;
   box-sizing: border-box;
 
-  &:hover { background: darken($accent, 6%); }
+  &:hover { background: color.adjust($accent, $lightness: -6%); }
 }
 
 // ── Recent snapshots ─────────────────────────────────────────────────────────
