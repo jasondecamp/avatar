@@ -34,6 +34,7 @@ Match the existing art, not a generic cartoon style. Before drawing, render the 
 - **Light comes from above, slightly left.** Shadows are translucent black (`fill='#000' fill-opacity='0.13'`) so they darken any color they fall on. Clip them to the shape they fall on.
 - **View:** the figure is seen from slightly above. Horizontal bands (belts, hems, shirt bottoms, brims) curve like a smile: highest at the sides, lowest at the center.
 - **Slight tilt** reads as hand-drawn: hats lean a few degrees (`rotate(-3 …)`).
+- **Nothing touches the canvas edge** except backgrounds. Keep every part, including effect tips, at least ~10px inside the 800×800 frame (check with `measure.mjs bbox`).
 - **No trademarked logos or emblems.** Use "inspired by" shapes and colors only.
 
 ## Workflow
@@ -102,3 +103,7 @@ Add a dated line whenever a correction generalizes.
 - 2026-10-26, lightning: **energy flowing out of a source is widest at the source.** Bolts that swelled mid-span and pinched at the auras looked detached; flipping the taper connected them.
 - 2026-10-26, lightning: **merging effects must be composited by color, not by object.** Drawing aura then bolt left the bolt's dark rim cutting into the aura's pale band and flat ends showing; drawing all rims, then blues, pales and whites made them one shape.
 - 2026-10-26, lightning: **mixed styles look like separate effects.** Thin radiating spikes beside thick bolts didn't belong together; one shared palette and construction made it cohesive.
+- 2026-10-26, power-up aura: **parts must never clip at the canvas edge** (backgrounds excepted). Flame tips running off the top looked cut off, not dramatic.
+- 2026-10-26, power-up aura: **spikes added onto a smooth glow read as tacked on.** Make the effect's own silhouette the flame shape (serrated edge, pointed peak), stand it on a perspective ellipse on the ground, and nest the inner tones as smaller copies of the same silhouette.
+- 2026-10-26, power-up aura: **an effect that has to overlap the figure should blend, not cover.** A translucent normal-mode aura washed out the werewolf ears; the same art under `overlay` lights them and keeps their outline. Let the effect's own bands cross the figure.
+- 2026-10-26, power-up aura: **energy effects keep their own shape all the way through.** Inner bands that switched to following the body outline looked like outlines of the figure, and a smooth base looked like a cylinder. Every band is a smaller copy of the flame silhouette, jagged down to the ground ring.
