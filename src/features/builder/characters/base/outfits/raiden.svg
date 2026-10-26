@@ -5,7 +5,10 @@
     <path id='skirt' d='M 268 640 L 510 640 L 520 704 C 460 720 314 720 253 704 Z'/>
     <clipPath id='suit-clip'><use href='#suit'/></clipPath>
     <clipPath id='neck-clip'><rect x='334' y='440' width='112' height='112'/></clipPath>
+    <!-- nothing above the head's chin line: the outfit picker shows outfits without a head -->
+    <clipPath id='below-head'><path d='M -10 430 L 260 436.5 L 275 448 L 290 462 L 305 474 L 320 483 L 335 489.5 L 350 494.5 L 365 497.5 L 380 499 L 395 499 L 410 497.5 L 425 495.5 L 440 491.5 L 455 485.5 L 470 477.5 L 485 467.5 L 500 455 L 515 439 L 530 436.5 L 810 430 V 810 H -10 Z'/></clipPath>
   </defs>
+  <g clip-path='url(#below-head)'>
 
   <!-- white gi and pants -->
   <use href='#suit' fill='#f6f6f3'/>
@@ -47,4 +50,5 @@
   <clipPath id='sash-clip'><path d='M 254 606 C 320 621 460 621 526 606 L 532.5 636 C 460 651 320 651 245 636 Z'/></clipPath>
   <path d='M 240 621 C 320 636 460 636 540 621 L 540 660 L 240 660 Z' fill='#000' fill-opacity='0.35' clip-path='url(#sash-clip)'/>
   <path d='M 254 606 C 320 621 460 621 526 606 L 532.5 636 C 460 651 320 651 245 636 Z' fill='none' stroke='#000' stroke-width='10' stroke-linejoin='round'/>
+  </g>
 </svg>

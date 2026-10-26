@@ -33,6 +33,12 @@ R_TORSO = [(554.5, 726), (553.5, 720), (550.5, 708), (548.5, 696), (545.5, 684),
 # Leg bottoms and crotch, left outer corner → right outer corner. The bottom dips to y≈744.5 mid-leg.
 LEGS = [(224, 734.5), (232, 738.5), (244, 741.5), (264, 744.5), (296, 744.5), (320, 742.5), (336, 739.5), (352, 734.5), (361, 729), (366, 720), (367.5, 708), (368, 697), (374, 690), (388, 687.5), (401, 690), (406, 698), (408, 710), (410, 724), (416, 733.5), (432, 739.5), (456, 742), (480, 743.5), (512, 743.5), (528, 741.5), (544, 737.5), (551.5, 732)]
 
+# Bottom of the head outline (centerline), jaw to jaw. Every head shares it, including the werewolf.
+# Anything an outfit draws above this line is hidden by the head on the stage but shows on the
+# outfit picker's dummy, so clip outfits to BELOW_HEAD.
+HEAD_CHIN = [(260, 436.5), (275, 448), (290, 462), (305, 474), (320, 483), (335, 489.5), (350, 494.5), (365, 497.5), (380, 499), (395, 499), (410, 497.5), (425, 495.5), (440, 491.5), (455, 485.5), (470, 477.5), (485, 467.5), (500, 455), (515, 439), (530, 436.5)]
+BELOW_HEAD = 'M -10 430 L ' + ' L '.join(f'{x:g} {y:g}' for x, y in HEAD_CHIN) + ' L 810 430 V 810 H -10 Z'
+
 # Gi-style short sleeve hems: mirrored bell curves from the sleeve tip to the armpit line
 L_HEM = [(176, 552), (198, 543), (234, 546), (271, 566)]
 R_HEM = [(509, 566), (546, 546), (582, 543), (608, 557)]

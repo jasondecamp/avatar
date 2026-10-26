@@ -11,6 +11,7 @@ Load `layer-part` first for the workflow, preview scripts and house style. This 
 
 - **One image** in `characters/base/outfits/`, holding top and bottoms together, as the airbender, tux and Raiden outfits do. There's no separate bottoms layer. A top-only outfit (like gii-red) is fine too.
 - **Stacking:** drawn above the body and below the head. The head hides the neckline down to y≈504 at the chin. Hands belong to the body, so anything drawn over them hides them.
+- **Clip to below the head.** The outfit picker shows each outfit on a dummy without a head, so anything drawn where the head would cover it shows there. Wrap the whole outfit in `<g clip-path='url(#below-head)'>` with a clipPath of `BELOW_HEAD` from `body_outline.py` (the region below the head's chin outline). All heads share the chin, including the werewolf. Check the outfit both with and without a head.
 
 ## Geometry: build from the measured outline
 
@@ -18,7 +19,7 @@ Don't trace by eye. Write a small scratch generator that imports the measured ce
 
 ```python
 import sys; sys.path.insert(0, '.claude/skills/outfit-part/scripts')
-from body_outline import *   # NECK, L/R_SHOULDER, L/R_ARM, L/R_HAND, L/R_TORSO, LEGS, L/R_HEM, SHORT_SLEEVE_SUIT, torso_x, smooth, segs, by_y, lift, P
+from body_outline import *   # HEAD_CHIN, BELOW_HEAD, NECK, L/R_SHOULDER, L/R_ARM, L/R_HAND, L/R_TORSO, LEGS, L/R_HEM, SHORT_SLEEVE_SUIT, torso_x, smooth, segs, by_y, lift, P
 ```
 
 - **Garment silhouette:** build it from those point chains and stroke it 12px, `stroke-linejoin='round'`. Its edge then sits exactly on the body outline. `SHORT_SLEEVE_SUIT` is a ready-made short-sleeve shirt-and-pants silhouette.
@@ -49,4 +50,5 @@ from body_outline import *   # NECK, L/R_SHOULDER, L/R_ARM, L/R_HAND, L/R_TORSO,
 - 2026-10-25, Raiden: a sash curved the wrong way (center high) "betrayed the perspective". Bands must curve like a smile.
 - 2026-10-25, Raiden: shadows must follow the same conventions as the other outfits (head oval, inside legs, under belts). Ad-hoc side shading looked inconsistent.
 - 2026-10-25, Raiden: an apron that ran to the leg bottoms looked disconnected. A wider skirt ending above the legs reads as part of the tabard.
+- 2026-10-26, Raiden: the neck cutout and undershirt poked above the chin on the picker's headless dummy. Clipping the outfit to BELOW_HEAD fixed it.
 - 2026-10-25, Raiden: a skirt 7px narrower on the ribbon side made that leg look misshapen. Keep margins symmetric.
