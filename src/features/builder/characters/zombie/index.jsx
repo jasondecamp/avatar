@@ -1,7 +1,7 @@
 import { importDirectoryImages } from '../../services/helpers';
 import { getCharacterLayerOptions } from '../base';
 
-const modules = import.meta.glob('./**/*.png', { eager: true, import: 'default' });
+const modules = import.meta.glob('./**/*.{png,svg}', { eager: true, import: 'default' });
 const layers = importDirectoryImages(modules, './');
 
 const bodies = Object.keys(layers.bodies).map(key => ({

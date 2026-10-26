@@ -4,7 +4,7 @@ import { importDirectoryImages } from '../../services/helpers';
 import headImage from './head.png';
 import bodyImage from './body.png';
 
-const modules = import.meta.glob('./**/*.png', { eager: true, import: 'default' });
+const modules = import.meta.glob('./**/*.{png,svg}', { eager: true, import: 'default' });
 const baseLayers = importDirectoryImages(modules, './');
 
 export const base = {
