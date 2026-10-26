@@ -20,6 +20,7 @@
 
 .snapshot_thumb {
   position: relative;
+  isolation: isolate; // keeps layer blend modes inside the thumbnail
   aspect-ratio: 1;
   background: #3e3e3e;
   border-radius: 3px;

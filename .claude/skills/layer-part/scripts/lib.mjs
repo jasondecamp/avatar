@@ -6,9 +6,9 @@ import { fileURLToPath } from 'node:url';
 import { resolve, extname } from 'node:path';
 import { Resvg } from '@resvg/resvg-js';
 
-import { LAYER_STACK } from '../../../../src/features/builder/services/layers.js';
+import { LAYER_STACK, getBlendMode } from '../../../../src/features/builder/services/layers.js';
 
-export { LAYER_STACK };
+export { LAYER_STACK, getBlendMode };
 export const REPO = resolve(fileURLToPath(import.meta.url), '../../../../..');
 export const CHARACTERS = `${REPO}/src/features/builder/characters`;
 export const CANVAS = 800;

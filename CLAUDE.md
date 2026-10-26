@@ -55,7 +55,7 @@ src/
       characters/              # per-character layer definitions (base, human, vampire, …)
       components/              # Builder, Stage, CarouselRow, CharacterRow, BodyRow, RecentSnapshots
         styles/                # *.module.scss + _variables.scss
-      services/                # layers.js (LAYER_STACK order + image resolver), export.js (image generation), snapshots.js (localStorage), helpers.js
+      services/                # layers.js (LAYER_STACK order, part blend modes, layer resolver), export.js (image generation), snapshots.js (localStorage), helpers.js
       index.jsx                # barrel
     common/
       components/LayoutBasic.jsx
@@ -63,6 +63,7 @@ src/
 ```
 
 - Layer stacking is defined once, in `LAYER_STACK` (`features/builder/services/layers.js`). The stage z-indexes, the PNG export and the snapshot thumbnails all read it. Picker row order is separate (`getCharacterLayerOptions`).
+- A part can blend with the layers beneath it (`screen`, `multiply`, `color`, …) through `PART_BLEND_MODES` in the same file. The stage sets it as `mix-blend-mode` on the part's row (each row is its own stacking context), and the export uses the canvas `globalCompositeOperation`.
 - Parts are 800×800 PNG or SVG files in `characters/<character>/<layer>/`; the file name is the picker label. To create new parts, use the `layer-part`, `outfit-part` and `headgear-part` skills in `.claude/skills/`.
 - State lives in React (`useState`/`useMemo`) inside `Builder`. Recent snapshots persist through `features/builder/services/snapshots.js` (`localStorage`).
 - Organize code by feature: `features/[featureName]/{components,services}` plus an `index.jsx` barrel. Features don't import from sibling features; shared code goes in `features/common`.

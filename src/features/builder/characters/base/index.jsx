@@ -1,6 +1,6 @@
 import { merge } from 'lodash';
 import { importDirectoryImages } from '../../services/helpers';
-import { getLayerZIndex } from '../../services/layers';
+import { getBlendMode, getLayerZIndex } from '../../services/layers';
 
 import headImage from './head.png';
 import bodyImage from './body.png';
@@ -15,12 +15,12 @@ export const base = {
   layers: baseLayers,
 };
 
-const NONE_PART = { label: 'none', image: null };
+const NONE_PART = { label: 'none', image: null, blendMode: 'normal' };
 
 const layerFromImages = (label, images) => images ? {
   label,
   order: getLayerZIndex(label),
-  parts: [NONE_PART, ...Object.keys(images).map(key => ({ label: key, image: images[key] }))],
+  parts: [NONE_PART, ...Object.keys(images).map(key => ({ label: key, image: images[key], blendMode: getBlendMode(label, key) }))],
 } : null;
 
 export const getCharacterLayerOptions = (characterLayers) => {

@@ -14,6 +14,9 @@ Read `reference/anatomy.md` for measured coordinates (head, face regions, hands,
 - **Folder = layer, file name = picker label.** `src/features/builder/characters/base/<layer>/<kebab-name>.svg` shows up for every character. `characters/<character>/<layer>/` adds a part for one character only.
 - **Stacking** comes from `LAYER_STACK` in `src/features/builder/services/layers.js`, bottom to top: backgrounds, body, outfits, head, mouths, eyes, accessories, headgear. The stage, PNG export and snapshot thumbnails all read it. The preview scripts import it too, so previews always match the app.
   - Outfits draw *under* the head, so the head hides the neckline (down to y≈504 at the chin).
+  - A part can blend with the layers beneath it instead of drawing over them: add `'<layer>/<part>': '<mode>'` to `PART_BLEND_MODES` in `layers.js` (CSS blend mode names such as `screen`, `multiply`, `overlay`, `color`). `compose.mjs` applies registered modes automatically (matched by file name); preview an unregistered draft with `--blend <layer>=<mode>` and `--page '#e0e0e0'` for the empty stage.
+    - **Over an empty stage, every mode shows the part's own colors**, because there's nothing beneath to blend with. Draw with colors that look right on their own (pale tones at partial opacity for light effects), not dark colors that only work as screen input.
+    - **`overlay` for light that crosses the figure:** black stays black, so outlines survive and mid tones brighten. `screen` lifts black outlines to grey, which reads as washed out. `multiply` for shadows and tints.
   - Hands are part of the body layer, so an outfit drawn over them hides them. Keep garments off the hands unless the part is meant to cover them.
 - **SVG requirements** (the stage shows parts in `<img>`; export draws them onto a canvas):
   - Root needs `width='800' height='800' viewBox='0 0 800 800'`, or some browsers render nothing or the wrong size on the export canvas.

@@ -42,10 +42,13 @@ export const CarouselRow = ({ items, isActive, order, onChange, rowPosition, sel
     return () => document.removeEventListener('keydown', handleKeyDown);
   }, [navigateItem, isActive]);
 
+  // Each row is its own stacking context, so the selected part's blend mode goes on the row to reach the layers below
+  const blendMode = items[selectionIndex]?.blendMode ?? 'normal';
+
   return (
     <div
       className={classNames(CSS.row, isActive ? CSS.active : CSS.inactive, rowPosition && CSS[`row_${rowPosition}`])}
-      style={{ zIndex: order }}
+      style={{ zIndex: order, mixBlendMode: blendMode }}
     >
       { carouselItems.map((item, itemIndex) => (
         <div key={itemIndex} className={classNames(CSS.item, CSS[getItemPositionClass(itemIndex, activeIndex, carouselItems.length)])}>
