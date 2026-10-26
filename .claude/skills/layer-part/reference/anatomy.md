@@ -1,7 +1,7 @@
 # Template anatomy (800×800 canvas)
 
 Measured from the existing PNGs on 2026-10-25 with `measure.mjs bbox|rows|cols`. Viewer's left = L.
-Re-measure before relying on a number for a new kind of part. Replace this with Jason's template exports when they arrive.
+Re-measure before relying on a number for a new kind of part. For exact body and head edges, use Jason's template exports in `templates/` (`body.svg`, `head.svg`): each path is the inner edge of its outline, with the 10px line outside it.
 
 ## Body (all characters share the silhouette)
 
@@ -42,6 +42,7 @@ Re-measure before relying on a number for a new kind of part. Replace this with 
 | headgear/crown | x 124–570, y 0–280 |
 | headgear/goku-hair | x 100–639, y 4–346 |
 | headgear/bamboo-hat (SVG) | x 34–748, y 30–378 (brim at y≈250–340, shades the brows) |
+| headgear/halo (PNG, Jason's) | x 163–528, y 6–176 (tilted ring overlapping the top of the head, soft glow) |
 | accessories/glasses | x 223–562, y 285–424 |
 | accessories/firecracker | x 528–799, y 434–644 (held, R hand) |
 | accessories/big-spoon | x 527–784, y 250–668 (held, R hand) |

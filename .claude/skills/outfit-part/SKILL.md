@@ -11,18 +11,21 @@ Load `layer-part` first for the workflow, preview scripts and house style. This 
 
 - **One image** in `characters/base/outfits/`, holding top and bottoms together, as the airbender, tux and Raiden outfits do. There's no separate bottoms layer. A top-only outfit (like gii-red) is fine too.
 - **Stacking:** drawn above the body and below the head. The head hides the neckline down to y≈504 at the chin. Hands belong to the body, so anything drawn over them hides them.
-- **Clip to below the head.** The outfit picker shows each outfit on a dummy without a head, so anything drawn where the head would cover it shows there. Wrap the whole outfit in `<g clip-path='url(#below-head)'>` with a clipPath of `BELOW_HEAD` from `body_outline.py` (the region below the head's chin outline). All heads share the chin, including the werewolf. Check the outfit both with and without a head.
+- **Mask out the head.** The outfit picker draws each outfit over a dummy (`base/blank.png`) whose blank head lies under the outfit, so anything drawn where the head would be covers the dummy's chin line. Put `below_head_mask()` from `body_outline.py` in `<defs>` and wrap the whole outfit in `<g mask='url(#below-head)'>`. It hides the head template's shape and its outline. All heads share the chin, including the werewolf. Check the outfit both with and without a head.
 
-## Geometry: build from the measured outline
+## Geometry: build from the templates
 
-Don't trace by eye. Write a small scratch generator that imports the measured centerlines and writes the SVG:
+Don't trace by eye. Write a small scratch generator that imports the body geometry and writes the SVG:
 
 ```python
 import sys; sys.path.insert(0, '.claude/skills/outfit-part/scripts')
-from body_outline import *   # HEAD_CHIN, BELOW_HEAD, NECK, L/R_SHOULDER, L/R_ARM, L/R_HAND, L/R_TORSO, LEGS, L/R_HEM, SHORT_SLEEVE_SUIT, torso_x, smooth, segs, by_y, lift, P
+from body_outline import *   # BODY, HEAD, OUTLINE, body_fill, below_head_mask, plus measured HEAD_CHIN, NECK, L/R_SHOULDER, L/R_ARM, L/R_HAND, L/R_TORSO, LEGS, L/R_HEM, SHORT_SLEEVE_SUIT, torso_x, smooth, segs, by_y, lift, P
 ```
 
-- **Garment silhouette:** build it from those point chains and stroke it 12px, `stroke-linejoin='round'`. Its edge then sits exactly on the body outline. `SHORT_SLEEVE_SUIT` is a ready-made short-sleeve shirt-and-pants silhouette.
+`BODY` and `HEAD` come from Jason's Photoshop exports in `layer-part/reference/templates/`. Each path is the inner edge of its outline; the 10px black line lies outside it (a 20px stroke painted under the fill).
+
+- **Garment silhouette:** `body_fill(color)` draws the body exactly as the body layer does, in the garment color. Clip it to a region for the garment. The region only has to be exact where the garment ends inside the body (sleeve hems, cuffs, pant hems, necklines); everywhere else, let it run loosely past the body's edge, and the garment's outline lands exactly on the body's. Draw hem lines on top.
+- **Measured points** are for positions inside the body, not its edge: hip lines (`torso_x`), sleeve hems (`L_HEM`/`R_HEM`), the crotch. They're centerlines of the PNG outline, measured within ±2px. `SHORT_SLEEVE_SUIT` is the older measured short-sleeve silhouette; prefer `body_fill` for new outfits.
 - **Elements that end at the hips** (belts, sashes, vests): put their ends on the torso lines. Use `torso_x('L', y)` / `torso_x('R', y)`, and use straight sides there, not smoothed corners.
 - **Inner elements** (tabards, panels, lapels): clip them to the silhouette, or keep them inside the hip lines.
 - **Corners:** `smooth()` overshoots at sharp corners. Build those paths as open chains joined with straight segments, and hide the straight joins under another element (a tabard's bottom edge under the sash, for example).
@@ -50,5 +53,5 @@ from body_outline import *   # HEAD_CHIN, BELOW_HEAD, NECK, L/R_SHOULDER, L/R_AR
 - 2026-10-25, Raiden: a sash curved the wrong way (center high) "betrayed the perspective". Bands must curve like a smile.
 - 2026-10-25, Raiden: shadows must follow the same conventions as the other outfits (head oval, inside legs, under belts). Ad-hoc side shading looked inconsistent.
 - 2026-10-25, Raiden: an apron that ran to the leg bottoms looked disconnected. A wider skirt ending above the legs reads as part of the tabard.
-- 2026-10-26, Raiden: the neck cutout and undershirt poked above the chin on the picker's headless dummy. Clipping the outfit to BELOW_HEAD fixed it.
+- 2026-10-26, Raiden: the neck cutout and undershirt poked above the chin on the picker's headless dummy. Clipping the outfit below the chin fixed it. (Now done with `below_head_mask()`, which also keeps the dummy's whole chin line visible.)
 - 2026-10-25, Raiden: a skirt 7px narrower on the ribbon side made that leg look misshapen. Keep margins symmetric.
