@@ -1,10 +1,11 @@
 import { merge } from 'lodash';
 import { importDirectoryImages } from '../../services/helpers';
+import { getBlendMode, getLayerZIndex } from '../../services/layers';
 
 import headImage from './head.png';
 import bodyImage from './body.png';
 
-const modules = import.meta.glob('./**/*.png', { eager: true, import: 'default' });
+const modules = import.meta.glob('./**/*.{png,svg}', { eager: true, import: 'default' });
 const baseLayers = importDirectoryImages(modules, './');
 
 export const base = {
@@ -14,22 +15,23 @@ export const base = {
   layers: baseLayers,
 };
 
-const NONE_PART = { label: 'none', image: null };
+const NONE_PART = { label: 'none', image: null, blendMode: 'normal' };
 
-const layerFromImages = (label, images, order) => images ? {
+const layerFromImages = (label, images) => images ? {
   label,
-  order,
-  parts: [NONE_PART, ...Object.keys(images).map(key => ({ label: key, image: images[key] }))],
+  order: getLayerZIndex(label),
+  parts: [NONE_PART, ...Object.keys(images).map(key => ({ label: key, image: images[key], blendMode: getBlendMode(label, key) }))],
 } : null;
 
 export const getCharacterLayerOptions = (characterLayers) => {
   const layers = merge({}, baseLayers, characterLayers);
+  // Picker row order only; stacking comes from LAYER_STACK
   return [
-    layerFromImages('eyes',        layers.eyes, 6),
-    layerFromImages('mouths',      layers.mouths, 5),
-    layerFromImages('outfits',     layers.outfits, 3),
-    layerFromImages('headgear',    layers.headgear, 7),
-    layerFromImages('accessories', layers.accessories, 8),
-    layerFromImages('backgrounds', layers.backgrounds, 1),
+    layerFromImages('eyes',        layers.eyes),
+    layerFromImages('mouths',      layers.mouths),
+    layerFromImages('outfits',     layers.outfits),
+    layerFromImages('headgear',    layers.headgear),
+    layerFromImages('accessories', layers.accessories),
+    layerFromImages('backgrounds', layers.backgrounds),
   ].filter(Boolean);
 };

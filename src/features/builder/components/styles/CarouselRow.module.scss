@@ -144,14 +144,3 @@ $slot: $size + $gap; // 336px per step
   transform: translateY(50%);
   filter: blur(15px);
 }
-
-
-// ── Layer z-indexes ───────────────────────────────────────────────────────────
-.layer_backgrounds { z-index: 0; }
-.layer_body        { z-index: 1; }
-.layer_outfits     { z-index: 2; }
-.layer_head        { z-index: 3; }
-.layer_mouths      { z-index: 4; }
-.layer_eyes        { z-index: 5; }
-.layer_headgear    { z-index: 6; }
-.layer_accessories { z-index: 7; }

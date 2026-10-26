@@ -1,7 +1,7 @@
 export const importDirectoryImages = (modules, prefix = '') => {
   const images = {};
   Object.keys(modules).forEach(key => {
-    let name = key.replace(prefix, '').replace(/(\.\/|\.png)/g, '');
+    let name = key.replace(prefix, '').replace(/(\.\/|\.(png|svg)$)/g, '');
     let location = images;
     if (name.includes('/')) {
       const namespace = name.split('/');

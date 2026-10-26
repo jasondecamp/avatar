@@ -2,6 +2,7 @@ import { useState, useEffect, useMemo } from 'react';
 import classNames from 'classnames';
 
 import { getItemPositionClass, padItems } from '../services/helpers';
+import { getLayerZIndex } from '../services/layers';
 
 import CSS from './styles/CarouselRow.module.scss';
 
@@ -42,7 +43,7 @@ export const BodyRow = ({ bodies, isActive, onChange, rowPosition, selectionInde
     <>
       <div
         className={classNames(CSS.row, isActive ? CSS.active : CSS.inactive, hideCenterItem && CSS.hide_center,  rowPosition && CSS[`row_${rowPosition}`])}
-        style={{ zIndex: 2 }}
+        style={{ zIndex: getLayerZIndex('body') }}
       >
         { carouselItems.map((item, itemIndex) => (
           <div key={itemIndex} className={classNames(CSS.item, CSS[getItemPositionClass(itemIndex, activeIndex, carouselItems.length)])}>
@@ -54,7 +55,7 @@ export const BodyRow = ({ bodies, isActive, onChange, rowPosition, selectionInde
       </div>
       <div
         className={classNames(CSS.row, isActive ? CSS.active : CSS.inactive, hideCenterItem && CSS.hide_center,rowPosition && CSS[`row_${rowPosition}`])}
-        style={{ zIndex: 4 }}
+        style={{ zIndex: getLayerZIndex('head') }}
       >
         { carouselItems.map((item, itemIndex) => (
           <div key={itemIndex} className={classNames(CSS.item, CSS[getItemPositionClass(itemIndex, activeIndex, carouselItems.length)])}>

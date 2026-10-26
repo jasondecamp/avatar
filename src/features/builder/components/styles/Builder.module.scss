@@ -73,6 +73,7 @@
 // normal-flow so the snapshot footer lives below the stage naturally.
 .interaction_area {
   position: relative;
+  isolation: isolate; // blend modes mix with the layers only, not the page, matching the export
   width: 100%;
   display: flex;
   justify-content: center;

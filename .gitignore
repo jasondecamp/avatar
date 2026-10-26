@@ -12,3 +12,6 @@
 
 # misc
 .DS_Store
+
+# python bytecode (art skill helpers)
+__pycache__/
