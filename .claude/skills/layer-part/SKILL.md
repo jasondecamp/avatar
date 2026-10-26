@@ -5,7 +5,7 @@ description: Create a new layerable avatar part (eyes, mouth, outfit, headgear, 
 
 # Creating a layer part
 
-Parts are 800×800 transparent images stacked on a shared canvas. A part fits by being drawn in the right place: nothing positions it in code. Draw parts as hand-authored SVG, verify them numerically and visually against every body, and show Jason previews before anything lands in the repo.
+Parts are 800×800 transparent images stacked on a shared canvas. A part fits by being drawn in the right place: nothing positions it in code. Draw parts as hand-authored SVG, verify them numerically and visually against every body, then put each draft Jason should see straight into the builder's assets folder so he can review it in the app.
 
 Read `reference/anatomy.md` for measured coordinates (head, face regions, hands, body) before drawing.
 
@@ -29,7 +29,7 @@ Read `reference/anatomy.md` for measured coordinates (head, face regions, hands,
 
 Match the existing art, not a generic cartoon style. Before drawing, render the existing parts in the same layer (`compose.mjs --part <layer>=<existing-name>`) and look at them.
 
-- **Outlines:** black (`#000`), about 11–12px at 800px, `stroke-linejoin='round'`. Thinner (3–6px) black lines only for interior detail such as seams, lapels and folds.
+- **Outlines:** everything is outlined in black (`#000`), with no colored or grey outlines. Outer edges are a consistent 10px at 800px, `stroke-linejoin='round'`. Inner edges and dividing lines are thinner (3–6px, by context), such as seams, lapels, folds and leaf veins.
 - **Fills:** flat color plus at most one shade. No highlight streaks or decorative lines unless they follow the form exactly (see lessons).
 - **Light comes from above, slightly left.** Shadows are translucent black (`fill='#000' fill-opacity='0.13'`) so they darken any color they fall on. Clip them to the shape they fall on.
 - **View:** the figure is seen from slightly above. Horizontal bands (belts, hems, shirt bottoms, brims) curve like a smile: highest at the sides, lowest at the center.
@@ -50,8 +50,8 @@ Match the existing art, not a generic cartoon style. Before drawing, render the 
    - Grid: `node .claude/skills/layer-part/scripts/grid.mjs --image <png-or-svg> … --out <png> --view hands` to read coordinates by eye.
    - Read the PNGs yourself before showing Jason. Fix what you can see first.
 5. **Check every body.** Werewolf is the outlier: its head reaches x 97–688 and y 85, with fur tufts outside the standard outline. Zombie variants add marks but share the outline.
-6. **Show Jason the sheet and the close-up, and iterate.** His notes are design direction. Fold each one into the lessons below if it generalizes.
-7. **Land it.** Copy the SVG to `characters/base/<layer>/<name>.svg` (or a character folder) and run `pnpm build`. Jason verifies in the browser; don't drive the browser yourself. Commit only when he asks.
+6. **Put the draft in the app and iterate.** Copy the SVG to `characters/base/<layer>/<name>.svg` (or a character folder), run `pnpm build`, and tell Jason the part name. Never hand him scratchpad image paths; the contact sheets are for your own checks. Every later iteration overwrites the same file. His notes are design direction. Fold each one into the lessons below if it generalizes.
+7. **Verification and commits.** Jason verifies in the browser; don't drive the browser yourself. Commit only when he asks.
 8. **Record lessons.** Add new general rules to this file and part-specific ones to `outfit-part` or `headgear-part`. Note the date and the part that taught the rule.
 
 ## Other layers (no dedicated skill yet)
@@ -75,10 +75,16 @@ Match the existing art, not a generic cartoon style. Before drawing, render the 
 
 ## Assets to request from the Photoshop templates
 
-Jason can export vector edges from his templates. Ask for whichever ones the current part needs, and save them in `reference/templates/` as SVG with their source noted:
+Jason can export vector edges from his templates. Ask for whichever ones the current part needs, and save them in `reference/templates/` as SVG with their source noted. His per-layer SVG export has no viewBox and is cropped to the layer, so find its offset on the 800×800 canvas by fitting it to the matching PNG and bake the offset into the coordinates. A stroke of 20px in the export means a 10px outline outside the path.
 
-- Body outline as vector paths (would replace the measured `body_outline.py` points)
-- Head outline per character, including werewolf fur and ears
+Received (2026-10-26):
+
+- `body.svg`: the body without the head, neck trimmed along the head's chin. `body_outline.py` exposes it as `BODY`.
+- `head.svg`: the head shared by base, human, vampire and zombie. `body_outline.py` exposes it as `HEAD`.
+
+Still to request:
+
+- Werewolf head outline, including fur and ears
 - Default shadow regions: head-shadow oval, inside-leg shadow, any others
 - Face regions for eyes and mouths
 - Hand grip masks for held accessories, per hand
@@ -107,3 +113,8 @@ Add a dated line whenever a correction generalizes.
 - 2026-10-26, power-up aura: **spikes added onto a smooth glow read as tacked on.** Make the effect's own silhouette the flame shape (serrated edge, pointed peak), stand it on a perspective ellipse on the ground, and nest the inner tones as smaller copies of the same silhouette.
 - 2026-10-26, power-up aura: **an effect that has to overlap the figure should blend, not cover.** A translucent normal-mode aura washed out the werewolf ears; the same art under `overlay` lights them and keeps their outline. Let the effect's own bands cross the figure.
 - 2026-10-26, power-up aura: **energy effects keep their own shape all the way through.** Inner bands that switched to following the body outline looked like outlines of the figure, and a smooth base looked like a cylinder. Every band is a smaller copy of the flame silhouette, jagged down to the ground ring.
+- 2026-10-26, headphones: **a part made of touching pieces gets one 10px outline around the whole silhouette and thin (5–6px) lines between pieces.** Draw every piece as a black shape with a 20px stroke first, then the fills with thin strokes on top. Separate 10px outlines on each piece buried a narrow ear cushion in black.
+- 2026-10-26, headphones: **anything that follows the head (bands, straps) should sit at an even distance from its outline.** Trace the base head PNG (rays from the center, smoothed) and offset along the normal; a superellipse floated off the crown and hugged the sides unevenly. Leave a visible gap (the headphone band's centerline is 36px out); hugging the head made the set look too small.
+- 2026-10-26, headphones: **anything at the sides of the head must clear the widest eyes** (`avatar_state`, x 241–543). Check with `--eyes avatar_state`. Ear cups belong outboard of the head, with only the cushion touching its side.
+- 2026-10-26, headphones: **pieces that sit against the side of the head angle in toward the chin a few degrees** (ear cups: 6° for the whole piece about its attachment point, plus another 15° for the shell and cushion about the cup's own center, so the top tucks out as the bottom comes in instead of the cup swinging into the face), pivoting where they attach, to follow the temples and jaw.
+- 2026-10-26, headphones: **shading on mirrored, rotated pieces is defined in screen space.** Light comes from one direction, so a shade edge drawn in each piece's local frame came out at different angles once the left and right cups were rotated opposite ways. Define the edge on one side and counter-rotate it into the other piece's frame.

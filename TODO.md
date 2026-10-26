@@ -15,3 +15,9 @@
   | mouths | 6 | vampire +1, werewolf +1 |
 
   Mouths, headgear, accessories and eyes are short. Some existing parts may not count as "good" yet.
+
+  Part ideas (2026-10-26). Themed items are "inspired by" shapes and colors only, with no trademarked logos:
+
+  - **Accessories:** sunglasses, over-ear headphones (Bose style), magic wand, flying broomstick, Quidditch gear
+  - **Harry Potter inspired:** a house scarf accessory and a wizard robes outfit for each house
+  - **Themed sets** (pick items per theme): Avengers, Doctor Who, Teenage Mutant Ninja Turtles, Dungeon Crawler Carl

@@ -1,0 +1,30 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='800' height='800' viewBox='0 0 800 800'>
+  <!--
+    Head silhouette shared by base, human, vampire and zombie (the werewolf adds fur and wider ears outside it, but shares the chin),
+    from Jason's Photoshop template (per-layer SVG export, 2026-10-26).
+    The export was 494×449 with no viewBox; the path is shifted by (145, 78) here so it's in 800×800 canvas coordinates.
+    The path is the INNER edge of the head outline. The outline is drawn outside it: a 20px stroke painted
+    under the fill (paint-order='stroke') leaves 10px showing, which matches base/head.png within ±1px.
+    Its chin, lowest at (388.6, 494.6), is the same curve as the body template's trimmed neck.
+  -->
+  <path fill='#fff' stroke='#000' stroke-width='20' stroke-linejoin='round' paint-order='stroke' d='
+    M606.324,348.749
+    C 606.324,372.806 604.418,440.664 517.647,431.478
+    L 517.647,430.501
+    L 516.382,430.501
+    C 488.683,465.753 447.900,494.884 388.634,494.592
+    C 332.258,494.314 293.512,465.451 267.153,430.501
+    L 264.924,430.501
+    L 264.924,431.568
+    C 178.988,440.223 177.096,372.727 177.096,348.749
+    C 177.096,324.397 214.583,311.284 214.583,311.284
+    C 214.583,311.284 214.767,311.422 215.090,311.668
+    C 214.996,311.122 214.919,310.651 214.853,310.240
+    L 215.034,310.240
+    C 214.849,309.474 214.697,308.869 214.583,308.474
+    C 211.341,297.257 177.097,109.777 387.962,110.487
+    C 591.172,111.171 574.120,294.484 570.154,311.780
+    C 576.757,314.359 606.324,327.114 606.324,348.749
+    Z
+  '/>
+</svg>

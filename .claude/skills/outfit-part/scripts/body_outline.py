@@ -1,4 +1,5 @@
-"""Measured body-outline centerlines for the shared blank body (base/body.png), plus path helpers.
+"""Body geometry for outfits: the template body and head paths (BODY, HEAD, body_fill, below_head_mask), measured
+outline centerlines for the shared blank body (base/body.png), and path helpers.
 
 Every character body uses the same silhouette (the werewolf adds fur tufts outside it at the shoulders).
 Points are the centers of the body's ~10-12px black outline in 800x800 canvas coordinates,
@@ -33,11 +34,54 @@ R_TORSO = [(554.5, 726), (553.5, 720), (550.5, 708), (548.5, 696), (545.5, 684),
 # Leg bottoms and crotch, left outer corner → right outer corner. The bottom dips to y≈744.5 mid-leg.
 LEGS = [(224, 734.5), (232, 738.5), (244, 741.5), (264, 744.5), (296, 744.5), (320, 742.5), (336, 739.5), (352, 734.5), (361, 729), (366, 720), (367.5, 708), (368, 697), (374, 690), (388, 687.5), (401, 690), (406, 698), (408, 710), (410, 724), (416, 733.5), (432, 739.5), (456, 742), (480, 743.5), (512, 743.5), (528, 741.5), (544, 737.5), (551.5, 732)]
 
-# Bottom of the head outline (centerline), jaw to jaw. Every head shares it, including the werewolf.
-# Anything an outfit draws above this line is hidden by the head on the stage but shows on the
-# outfit picker's dummy, so clip outfits to BELOW_HEAD.
+# Bottom of the head outline (centerline), jaw to jaw, measured from the head PNGs. Every head shares it, including the werewolf.
+# HEAD (below) is the exact shape; outfits mask it out with below_head_mask().
 HEAD_CHIN = [(260, 436.5), (275, 448), (290, 462), (305, 474), (320, 483), (335, 489.5), (350, 494.5), (365, 497.5), (380, 499), (395, 499), (410, 497.5), (425, 495.5), (440, 491.5), (455, 485.5), (470, 477.5), (485, 467.5), (500, 455), (515, 439), (530, 436.5)]
-BELOW_HEAD = 'M -10 430 L ' + ' L '.join(f'{x:g} {y:g}' for x, y in HEAD_CHIN) + ' L 810 430 V 810 H -10 Z'
+
+
+# --- Body and head templates (Jason's Photoshop exports in layer-part/reference/templates/) ---
+
+def _template_path(name):
+    import os, re
+    path = os.path.join(os.path.dirname(__file__), f'../../layer-part/reference/templates/{name}.svg')
+    return ' '.join(re.search(r" d='([^']+)'", open(path).read()).group(1).split())
+
+
+# Both paths trace the INNER edge of their outline; the 10px black line lies outside the path,
+# drawn as a 20px stroke painted under the fill.
+OUTLINE = 20
+
+# Body silhouette without the head, as one closed path. Its neck is trimmed along the head's chin path
+# (lowest at (388.6, 494.6)), so the head's outline covers it. body_fill() draws it the way the body layer does.
+BODY = _template_path('body')
+
+# Head silhouette shared by base, human, vampire and zombie. The werewolf's fur and ears reach outside it,
+# but every head shares this chin.
+HEAD = _template_path('head')
+
+
+def body_fill(fill):
+    """The body silhouette in `fill` with its black outline, drawn exactly as the body layer draws it.
+
+    Clip it to a garment region and the garment's outer edges land on the body outline with no measuring:
+    the region only has to be exact where the garment ends inside the body (hems, cuffs, necklines)
+    and can be loose wherever it runs past the body's edge.
+    """
+    return (f"<path d='{BODY}' fill='{fill}' stroke='#000' stroke-width='{OUTLINE}' "
+            "stroke-linejoin='round' paint-order='stroke'/>")
+
+
+def below_head_mask(id='below-head'):
+    """A <mask> (for <defs>) that hides the head and its outline. Wrap the whole outfit in mask='url(#below-head)'.
+
+    The head covers that area on the stage, but the outfit picker draws outfits on a dummy (base/blank.png)
+    whose blank head is under the outfit, so anything there would cover its chin line. A mask, not a
+    clipPath, because the head's outline is a stroke and clip paths ignore strokes.
+    """
+    return (f"<mask id='{id}' maskUnits='userSpaceOnUse' x='0' y='0' width='800' height='800'>"
+            "<rect width='800' height='800' fill='#fff'/>"
+            f"<path d='{HEAD}' fill='#000' stroke='#000' stroke-width='{OUTLINE}' stroke-linejoin='round'/></mask>")
+
 
 # Gi-style short sleeve hems: mirrored bell curves from the sleeve tip to the armpit line
 L_HEM = [(176, 552), (198, 543), (234, 546), (271, 566)]
