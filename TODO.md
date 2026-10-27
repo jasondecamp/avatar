@@ -1,7 +1,6 @@
 # To do
 
-- **Finish snapshots.** `services/snapshots.js` saves and reads them, but the "+ create snapshot" button in `Builder.jsx` is commented out, so there's no way to save one yet.
-- **Add a randomize option** that picks a random part for every layer.
+- **Make the picker rows fully controlled.** `CarouselRow`, `BodyRow` and `CharacterRow` each keep their own padded index and sync it to `selectionIndex` with an effect, and they repeat the same navigation and key handling. Have `Builder` own the positions and share the navigation code, then drop the sync effects.
 - **Replace the goku hair** (`headgear/goku-hair.png`) with an SVG in a cel-shaded anime style: large swept spikes with a flat base color, one shade tone and a few interior strand lines, instead of the current flat black shape. Jason has a reference image (white and grey spikes with purple side spikes).
 - **Keep adding parts until every layer has at least 10 good options.** Use the `layer-part`, `outfit-part` and `headgear-part` skills. Counts on 2026-10-26, base parts shared by every character (plus character-only extras):
 

@@ -13,6 +13,9 @@ export const LAYER_STACK = [
 
 export const getLayerZIndex = (label) => LAYER_STACK.indexOf(label) + 1;
 
+// Layers the randomizer always fills; it may pick 'none' for any other layer.
+export const RANDOM_REQUIRED_LAYERS = new Set(['eyes', 'mouths', 'backgrounds']);
+
 // Parts that blend with the layers beneath them instead of drawing over them, keyed '<layer>/<part>'.
 // Values are CSS mix-blend-mode names (multiply, screen, overlay, color, hue, …). The stage, the PNG
 // export and the snapshot thumbnails all apply them.
