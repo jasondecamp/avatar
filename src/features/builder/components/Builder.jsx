@@ -1,9 +1,12 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import classNames from 'classnames';
+import { BookmarkPlus, Shuffle, SquareUser } from 'lucide-react';
 
+import { Tooltip } from '../../common';
 import { characters } from '../characters';
 import { generateAvatar } from '../services/export';
-import { saveSnapshot } from '../services/snapshots';
+import { randomizeSelections } from '../services/randomize';
+import { getSnapshots, saveSnapshot } from '../services/snapshots';
 import { Stage } from './Stage';
 import { CharacterRow } from './CharacterRow';
 import { BodyRow } from './BodyRow';
@@ -34,8 +37,10 @@ const buildInitialSelections = (classLabel) => ({
 
 export const Builder = () => {
   const [selections, setSelections] = useState(buildInitialSelections('human'));
-  const [activeLayerIndex, setActiveLayerIndex] = useState(0);
-  const [snapshotVersion, setSnapshotVersion] = useState(0);
+  // The active layer is kept by label: the layer list changes length when a character with
+  // several bodies gains or loses the body layer, so an index would drift to another layer.
+  const [activeLayerLabel, setActiveLayerLabel] = useState('character');
+  const [snapshots, setSnapshots] = useState(getSnapshots);
 
   const currentCharacter = characters[selections.character];
   const hasMultipleBodies = currentCharacter.bodies.length > 1;
@@ -49,10 +54,14 @@ export const Builder = () => {
     [selections.character, hasMultipleBodies]
   );
 
+  // Falls back to the character row when the active layer is gone (body, after switching to a single-body character)
+  const activeLayerIndex = Math.max(0, layers.findIndex(layer => layer.label === activeLayerLabel));
+
   const navigateLayers = useCallback((direction) => {
     const length = layers.length;
-    setActiveLayerIndex(prev => direction === 'up' ? (prev - 1 + length) % length : (prev + 1) % length);
-  }, [layers.length]);
+    const nextIndex = direction === 'up' ? (activeLayerIndex - 1 + length) % length : (activeLayerIndex + 1) % length;
+    setActiveLayerLabel(layers[nextIndex].label);
+  }, [layers, activeLayerIndex]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -111,6 +120,8 @@ export const Builder = () => {
     ? Math.max(0, currentCharacter.bodies.findIndex(b => b.label === selections.body))
     : 0;
 
+  const characterSelectionIndex = Math.max(0, layers[0].parts.findIndex(p => p.label === selections.character));
+
   return (
     <div className={CSS.builder}>
 
@@ -139,6 +150,7 @@ export const Builder = () => {
           rowPosition={getLayerPosition(0, activeLayerIndex, layers.length)}
           bodyOverrides={bodyOverrides}
           hideCenterItem={hasMultipleBodies && activeLayerIndex !== 0}
+          selectionIndex={characterSelectionIndex}
         />
         { hasMultipleBodies && (
           <BodyRow
@@ -165,14 +177,38 @@ export const Builder = () => {
         ))}
         <div className={CSS.stage_card}>
           <Stage />
-          {/* <div className={CSS.snapshot_btn} onClick={() => { saveSnapshot(selections); setSnapshotVersion(v => v + 1); }}>+ create snapshot</div> */}
         </div>
 
       </div>
 
-      <button className={CSS.create_btn} onClick={() => generateAvatar(selections, characters)}>create me</button>
+      <div className={CSS.actions}>
+        <Tooltip>
+          <Tooltip.Trigger>
+            <button type='button' className={CSS.action_btn} onClick={() => setSelections(randomizeSelections(characters))}>
+              <Shuffle />
+            </button>
+          </Tooltip.Trigger>
+          <Tooltip.Content>Randomize</Tooltip.Content>
+        </Tooltip>
+        <Tooltip>
+          <Tooltip.Trigger>
+            <button type='button' className={CSS.create_btn} onClick={() => generateAvatar(selections, characters)}>
+              <SquareUser />
+            </button>
+          </Tooltip.Trigger>
+          <Tooltip.Content>Download avatar</Tooltip.Content>
+        </Tooltip>
+        <Tooltip>
+          <Tooltip.Trigger>
+            <button type='button' className={CSS.action_btn} onClick={() => setSnapshots(saveSnapshot(selections, snapshots))}>
+              <BookmarkPlus />
+            </button>
+          </Tooltip.Trigger>
+          <Tooltip.Content>Save snapshot</Tooltip.Content>
+        </Tooltip>
+      </div>
 
-      {/* <RecentSnapshots key={snapshotVersion} onLoad={(s) => { setSelections(s); }} /> */}
+      <RecentSnapshots snapshots={snapshots} onLoad={setSelections} />
 
     </div>
   );

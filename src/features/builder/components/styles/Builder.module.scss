@@ -71,7 +71,7 @@
 
 // ── Interaction area ─────────────────────────────────────────────────────────
 // CarouselRows are absolute strips within this container; stage_card is
-// normal-flow so the snapshot footer lives below the stage naturally.
+// normal-flow and gives the area its height.
 .interaction_area {
   position: relative;
   isolation: isolate; // blend modes mix with the layers only, not the page, matching the export
@@ -80,82 +80,54 @@
   justify-content: center;
 }
 
-// Stage card: white background + snapshot footer, shared card styling.
 // No z-index so it doesn't create a stacking context — CarouselRows at their
 // respective layer z-indexes compose correctly over the Stage background.
 .stage_card {
   position: relative;
 }
 
-// ── Snapshot footer (inside stage_card) ─────────────────────────────────────
-.snapshot_btn {
-  padding: 10px 0;
-  background: #f0f0f0;
+// ── Actions: randomize, create me, save snapshot ────────────────────────────
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+}
+
+.action_btn,
+.create_btn {
+  display: grid;
+  place-items: center;
+  padding: 0;
   border: none;
-  border-top: 1px solid #ddd;
-  font-size: 13px;
-  color: #888;
+  border-radius: 50%;
   cursor: pointer;
-  text-align: center;
-  letter-spacing: 0.03em;
-  transition: background 0.15s, color 0.15s;
-  margin: 0 10px;
+  transition: background 0.2s, color 0.2s;
+}
+
+.action_btn {
+  width: 64px;
+  height: 64px;
+  background: $dark;
+  color: #fff;
+
+  svg { width: 28px; height: 28px; }
+
+  &:hover { background: color.adjust($dark, $lightness: -10%); }
+  &:focus-visible { outline: 3px solid $accent; outline-offset: 3px; }
+}
+
+.create_btn {
+  width: 92px;
+  height: 92px;
+  background: $accent;
+  color: $dark;
+
+  svg { width: 44px; height: 44px; }
 
   &:hover {
-    background: #e8e8e8;
-    color: #444;
+    background: color.adjust($accent, $lightness: -3%);
+    color: color.adjust($dark, $lightness: -10%);
   }
-}
-
-// ── Create me CTA ────────────────────────────────────────────────────────────
-.create_btn {
-  width: $stage-size;
-  padding: 13px 0;
-  background: $accent;
-  border: none;
-  border-radius: $card-radius;
-  font-size: 26px;
-  font-weight: bold;
-  letter-spacing: 0.04em;
-  color: #1a1a1a;
-  cursor: pointer;
-  text-transform: lowercase;
-  box-sizing: border-box;
-
-  &:hover { background: color.adjust($accent, $lightness: -6%); }
-}
-
-// ── Recent snapshots ─────────────────────────────────────────────────────────
-.snapshots_section {
-  margin-top: 12px;
-  width: $stage-size;
-  background: $dark;
-  border-radius: $card-radius;
-  overflow: hidden;
-  margin-bottom: 40px;
-}
-
-.snapshots_grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-.snapshot_thumb {
-  aspect-ratio: 1;
-  background: #3e3e3e;
-  border-radius: 3px;
-  border: 1px solid #4a4a4a;
-}
-
-.snapshots_label {
-  text-align: center;
-  font-size: 12px;
-  font-weight: bold;
-  letter-spacing: 0.07em;
-  text-transform: lowercase;
-  color: #888;
-  padding: 6px 0 10px;
+  &:focus-visible { outline: 3px solid $dark; outline-offset: 3px; }
 }

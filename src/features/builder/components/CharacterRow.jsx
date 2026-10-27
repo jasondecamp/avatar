@@ -9,8 +9,15 @@ import CSS from './styles/CarouselRow.module.scss';
 
 const characterLabels = Object.keys(characters);
 
-export const CharacterRow = ({ isActive, onChange, rowPosition, bodyOverrides, hideCenterItem }) => {
-  const [activeIndex, setActiveIndex] = useState(0);
+export const CharacterRow = ({ isActive, onChange, rowPosition, bodyOverrides, hideCenterItem, selectionIndex = 0 }) => {
+  const [activeIndex, setActiveIndex] = useState(selectionIndex);
+
+  // Sync when the character changes from outside the row (randomize, snapshot load)
+  useEffect(() => {
+    if (activeIndex % characterLabels.length !== selectionIndex) {
+      setActiveIndex(selectionIndex);
+    }
+  }, [selectionIndex]);
 
   const characterParts = useMemo(
     () => characterLabels.map(label => {
