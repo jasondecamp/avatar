@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import classNames from 'classnames';
 import { BookmarkPlus, Shuffle, SquareUser } from 'lucide-react';
 
-import { Tooltip } from '../../common';
+import { BurstButton, Tooltip } from '../../common';
 import { characters } from '../characters';
 import { generateAvatar } from '../services/export';
 import { randomizeSelections } from '../services/randomize';
@@ -184,25 +184,25 @@ export const Builder = () => {
       <div className={CSS.actions}>
         <Tooltip>
           <Tooltip.Trigger>
-            <button type='button' className={CSS.action_btn} onClick={() => setSelections(randomizeSelections(characters))}>
+            <BurstButton className={CSS.action_btn} onClick={() => setSelections(randomizeSelections(characters))}>
               <Shuffle />
-            </button>
+            </BurstButton>
           </Tooltip.Trigger>
           <Tooltip.Content>Randomize</Tooltip.Content>
         </Tooltip>
         <Tooltip>
           <Tooltip.Trigger>
-            <button type='button' className={CSS.create_btn} onClick={() => generateAvatar(selections, characters)}>
+            <BurstButton className={CSS.create_btn} onClick={() => generateAvatar(selections, characters)}>
               <SquareUser />
-            </button>
+            </BurstButton>
           </Tooltip.Trigger>
-          <Tooltip.Content>Download avatar</Tooltip.Content>
+          <Tooltip.Content>Create me</Tooltip.Content>
         </Tooltip>
         <Tooltip>
           <Tooltip.Trigger>
-            <button type='button' className={CSS.action_btn} onClick={() => setSnapshots(saveSnapshot(selections, snapshots))}>
+            <BurstButton className={CSS.action_btn} onClick={() => setSnapshots(saveSnapshot(selections, snapshots))}>
               <BookmarkPlus />
-            </button>
+            </BurstButton>
           </Tooltip.Trigger>
           <Tooltip.Content>Save snapshot</Tooltip.Content>
         </Tooltip>
