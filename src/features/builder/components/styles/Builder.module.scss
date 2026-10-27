@@ -11,7 +11,7 @@
   background: #e0e0e0;
   padding: 40px 0;
   box-sizing: border-box;
-  gap: 24px;
+  gap: 48px;
   overflow-x: hidden;
 
   // Flex spacers: vertically center the content when it fits in the viewport;
@@ -110,8 +110,9 @@
   height: 64px;
   background: $dark;
   color: #fff;
+  --burst-color: #{$dark};
 
-  svg { width: 28px; height: 28px; }
+  > svg { width: 28px; height: 28px; } // the icon, not the Burst inside its span
 
   &:hover { background: color.adjust($dark, $lightness: -10%); }
   &:focus-visible { outline: 3px solid $accent; outline-offset: 3px; }
@@ -122,8 +123,9 @@
   height: 92px;
   background: $accent;
   color: $dark;
+  --burst-color: #{$accent};
 
-  svg { width: 44px; height: 44px; }
+  > svg { width: 44px; height: 44px; }
 
   &:hover {
     background: color.adjust($accent, $lightness: -3%);

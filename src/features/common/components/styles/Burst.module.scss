@@ -1,0 +1,40 @@
+// The parent needs position: relative; the burst overflows it.
+.burst {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 200%;
+  height: 200%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  // Each line is 15 viewBox units long. A 15-unit dash followed by a longer gap, parked just before
+  // the line's inner end, so nothing shows at rest. Units stay in the viewBox (no pathLength or
+  // non-scaling-stroke): browsers handle dashes inconsistently when either is involved.
+  line {
+    fill: none;
+    stroke: var(--burst-color, currentColor);
+    stroke-width: 1.6;
+    stroke-dasharray: 15 30;
+    stroke-dashoffset: 15;
+  }
+}
+
+// Sweep the dash through the line and past its outer end, once per mount
+@media (prefers-reduced-motion: no-preference) {
+  .burst line {
+    animation: burst 0.4s ease-in-out forwards;
+  }
+}
+
+@keyframes burst {
+  from { stroke-dashoffset: 15; }
+  to { stroke-dashoffset: -15; }
+}
